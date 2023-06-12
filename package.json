@@ -1,0 +1,18 @@
+{
+  "name": "npm-packages-server-to-postman",
+  "description": "npm packages server to Postman",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduardoenemark/npm-packages-server-to-postman.git"
+  },
+  "dependencies": {
+    "browserify": "16.3.0",
+    "express": "4.17.1",
+    "fs-extra": "11.1.1",
+    "http-status": "1.6.2",
+    "js-base64": "3.7.5",
+    "log4js": "6.9.1",
+    "nodemon": "2.0.22"
+  }
+}
