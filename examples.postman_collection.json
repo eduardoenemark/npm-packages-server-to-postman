@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f5cb4c88-3071-4913-875d-861d8cebcc63",
+		"_postman_id": "8282ebbd-f304-42b7-b640-76a56cdcc30c",
 		"name": "Examples",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27886780"
@@ -10,7 +10,7 @@
 			"name": "folder01",
 			"item": [
 				{
-					"name": "Hello using human-names package",
+					"name": "Using human-names: Hello",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -25,18 +25,33 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = require(\"chai\");",
+									"",
+									"pm.test(() => {",
+									"    assert.isOk(/Hello [A-Z][a-z]+!/.exec(pm.response.body));",
+									"});",
+									"",
+									"pm.test(() => {",
+									"  assert.equal(pm.response.status, 201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8888/hello/{{name}}",
-							"protocol": "http",
+							"raw": "{{URL}}/hello/{{name}}",
 							"host": [
-								"localhost"
+								"{{URL}}"
 							],
-							"port": "8888",
 							"path": [
 								"hello",
 								"{{name}}"
@@ -46,7 +61,7 @@
 					"response": []
 				},
 				{
-					"name": "Base64 decode",
+					"name": "Using js-base64: encode and decode",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -69,15 +84,54 @@
 							"raw": "{{encoded}}"
 						},
 						"url": {
-							"raw": "http://localhost:8888/base64/decode",
-							"protocol": "http",
+							"raw": "{{URL}}/base64/decode",
 							"host": [
-								"localhost"
+								"{{URL}}"
 							],
-							"port": "8888",
 							"path": [
 								"base64",
 								"decode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Using js-random: even or odd number",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const random = require('js-random')",
+									"const instance = new random.Random();",
+									"pm.variables.set('number', instance.next(100));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/even-or-odd/{{number}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"even-or-odd",
+								"{{number}}"
 							]
 						}
 					},
@@ -112,8 +166,6 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"pm.collectionVariables.set(\"required-packages\", \"human-names+express+js-base64@3.7.5\");",
-					"",
 					"const packagesCode = pm.collectionVariables.get(\"packages-code\");",
 					"const requiredPackages = pm.collectionVariables.get(\"required-packages\");",
 					"const installedPackages = pm.collectionVariables.get(\"installed-packages\");",
@@ -123,14 +175,17 @@
 					"    eval(packagesCode);",
 					"    return;",
 					"  }",
-					"  pm.sendRequest(\"http://localhost:9999/packages/\" + requiredPackages, (error, response) => {",
-					"    if (!error) {",
-					"      pm.collectionVariables.set(\"packages-code\", response.text());",
-					"      pm.collectionVariables.set(\"installed-packages\", requiredPackages);",
-					"      eval(response.text());",
+					"  pm.sendRequest(",
+					"    `${pm.collectionVariables.get(\"NPM_PACKAGES_SERVER_TO_POSTMAN_URL\")}/${requiredPackages}`,",
+					"    (error, response) => {",
+					"      if (!error) {",
+					"        pm.collectionVariables.set(\"packages-code\", response.text());",
+					"        pm.collectionVariables.set(\"installed-packages\", requiredPackages);",
+					"        eval(response.text());",
+					"      }",
+					"      error ? console.log(`error: ${JSON.stringify(error)}`) : null;",
 					"    }",
-					"    error ? console.log(`error: ${JSON.stringify(error)}`) : null;",
-					"  });",
+					"  );",
 					"}",
 					""
 				]
@@ -147,6 +202,16 @@
 		}
 	],
 	"variable": [
+		{
+			"key": "NPM_PACKAGES_SERVER_TO_POSTMAN_URL",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "URL",
+			"value": "",
+			"type": "string"
+		},
 		{
 			"key": "required-packages",
 			"value": ""

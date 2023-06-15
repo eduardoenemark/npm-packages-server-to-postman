@@ -1,4 +1,3 @@
-
 const log = require("log4js").getLogger();
 log.level = "debug";
 
@@ -14,7 +13,7 @@ app.get("/ping", (request, response) => {
   response.status(httpStatus.OK);
   response.set({
     "Content-Type": "text/plain",
-    "Content-Length": `${stringResponse.length}`,
+    "Content-Length": `${stringResponse.length}`
   });
   response.send(stringResponse);
   response.end();
@@ -31,7 +30,7 @@ app.get("/packages/:packages", (request, response) => {
         packages.push({
           name: fields[0],
           version: fields[1] || null,
-          fullName: this.matched[0],
+          fullName: this.matched[0]
         });
       }
     })();
@@ -65,7 +64,7 @@ app.get("/packages/:packages", (request, response) => {
 
     response.status(httpStatus.OK);
     response.set({
-      "Content-Type": "text/javascript",
+      "Content-Type": "text/javascript"
     });
 
     log.info("Reading processing stream...");
@@ -82,5 +81,5 @@ app.get("/packages/:packages", (request, response) => {
   }
 });
 
-const PORT = process.env.port || 9999;
+const PORT = process.env.PORT;
 app.listen(PORT, () => log.info(`Listing ${PORT} port...`));
