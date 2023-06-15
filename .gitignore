@@ -1,2 +1,5 @@
+.npmrc
+.env
 node_modules
 postman-linux-x64
+report-html

@@ -1,22 +1,23 @@
 {
-  "name": "npm-packages-server-to-postman",
+  "name": "npm2postman",
   "description": "npm packages server to Postman",
   "license": "MIT",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=16.16.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eduardoenemark/npm-packages-server-to-postman.git"
   },
+  "scripts": {
+    "start": "node -r dotenv/config npm2postman.js"
+  },
   "dependencies": {
     "browserify": "16.3.0",
-    "dotenv": "16.1.4",
+    "dotenv": "^16.1.4",
     "express": "4.17.1",
-    "fs-extra": "11.1.1",
     "http-status": "1.6.2",
-    "human-names": "^1.0.12",
-    "js-base64": "3.7.5",
-    "js-random": "^0.1.2",
-    "log4js": "6.9.1",
-    "newman-reporter-htmlextra": "^1.22.11",
-    "nodemon": "2.0.22"
+    "log4js": "6.9.1"
   }
 }

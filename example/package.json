@@ -1,0 +1,25 @@
+{
+  "name": "example-server-test-to-postman",
+  "description": "example server test to Postman",
+  "license": "MIT",
+  "main": "example-server.js",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=16.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduardoenemark/npm-packages-server-to-postman.git"
+  },
+  "scripts": {
+    "start": "node -r dotenv/config example-server.js",
+    "run-example-collection": "./node_modules/newman/bin/newman.js run --verbose example.collection.json"
+  },
+  "dependencies": {
+    "dotenv": "^16.1.4",
+    "express": "4.17.1",
+    "js-base64": "3.7.5",
+    "log4js": "6.9.1",
+    "newman": "^5.3.2"
+  }
+}

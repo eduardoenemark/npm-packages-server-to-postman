@@ -23,5 +23,5 @@ app.get("/even-or-odd/:number", (req, res) => {
   res.send(req.params.number % 2 ? "odd" : "even");
 });
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Example Server: Listing ${PORT} port...`));
+const PORT = process.env.PORT || 8888;
+app.listen(PORT, () => log.info(`Example Server: Listing ${PORT} port...`));

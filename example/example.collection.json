@@ -1,0 +1,247 @@
+{
+	"info": {
+		"_postman_id": "ce0bb589-54aa-4d1d-8e09-7264a29fafc3",
+		"name": "Example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27886780"
+	},
+	"item": [
+		{
+			"name": "Using npm packages",
+			"item": [
+				{
+					"name": "Using human-names: Hello",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									"const names = require('human-names');",
+									"",
+									"const name = names.maleRandom();",
+									"pm.variables.set('name', name);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = require(\"chai\");",
+									"[",
+									"  () => assert.isOk(/Hello [A-Z][a-z]+!/.exec(pm.response.body)),",
+									"  () => assert.equal(pm.response.status, 201)",
+									"].forEach((a) => pm.test(a));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/hello/{{name}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"hello",
+								"{{name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Using js-base64: encode and decode",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const text = 'Hello npm2postman!';",
+									"",
+									"pm.variables.set('text', text);",
+									"pm.variables.set('encoded', require('js-base64').encode(text));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(() => pm.response.body() == pm.variables.get('text'));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{encoded}}"
+						},
+						"url": {
+							"raw": "{{URL}}/base64/decode",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"base64",
+								"decode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Using random-js: even or odd number",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const randomjs = require(\"random-js\");",
+									"const random = new randomjs.Random();",
+									"pm.variables.set(\"number\", random.integer(8, 80));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"[",
+									"  () => pm.response.code == 200,",
+									"  () => {",
+									"    const expected = pm.variables.set(\"number\") % 2 ? \"odd\" : \"even\";",
+									"    pm.response.body() === expected;",
+									"  }",
+									"].forEach((a) => pm.test(a));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/even-or-odd/{{number}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"even-or-odd",
+								"{{number}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const vars = pm.collectionVariables;",
+					"const importedPackages = vars.get(\"imported-packages\");",
+					"const installedPackages = vars.get(\"installed-packages\");",
+					"const npm2postmanUrl = (() => {",
+					"  let u;",
+					"  vars.set(\"npm2postman-url\", (u = vars.get(\"npm2postman-url\") || \"http://localhost:9999/packages\"));",
+					"  return u;",
+					"})();",
+					"",
+					"if (importedPackages) {",
+					"  if (installedPackages === importedPackages) {",
+					"    eval(vars.get(\"packages-code\"));",
+					"    return;",
+					"  }",
+					"  pm.sendRequest(`${npm2postmanUrl}/${importedPackages}`, (error, response) => {",
+					"    if (!error && response.code == 200) {",
+					"      vars.set(\"packages-code\", response.text());",
+					"      vars.set(\"installed-packages\", importedPackages);",
+					"      eval(response.text());",
+					"    } else {",
+					"      console.log(`error: ${JSON.stringify(error)}`);",
+					"    }",
+					"  });",
+					"}",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:8888",
+			"type": "string"
+		},
+		{
+			"key": "imported-packages",
+			"value": "human-names+js-base64@3.7.5+random-js",
+			"type": "string"
+		},
+		{
+			"key": "npm2postman-url",
+			"value": ""
+		},
+		{
+			"key": "packages-code",
+			"value": ""
+		},
+		{
+			"key": "installed-packages",
+			"value": ""
+		}
+	]
+}
