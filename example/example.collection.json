@@ -183,23 +183,23 @@
 				"type": "text/javascript",
 				"exec": [
 					"const vars = pm.collectionVariables;",
+					"const requiredPackages = vars.get(\"required-packages\");",
 					"const importedPackages = vars.get(\"imported-packages\");",
-					"const installedPackages = vars.get(\"installed-packages\");",
 					"const npm2postmanUrl = (() => {",
 					"  let u;",
 					"  vars.set(\"npm2postman-url\", (u = vars.get(\"npm2postman-url\") || \"http://localhost:9999/packages\"));",
 					"  return u;",
 					"})();",
 					"",
-					"if (importedPackages) {",
-					"  if (installedPackages === importedPackages) {",
+					"if (requiredPackages) {",
+					"  if (importedPackages === requiredPackages) {",
 					"    eval(vars.get(\"packages-code\"));",
 					"    return;",
 					"  }",
-					"  pm.sendRequest(`${npm2postmanUrl}/${importedPackages}`, (error, response) => {",
+					"  pm.sendRequest(`${npm2postmanUrl}/${requiredPackages}`, (error, response) => {",
 					"    if (!error && response.code == 200) {",
 					"      vars.set(\"packages-code\", response.text());",
-					"      vars.set(\"installed-packages\", importedPackages);",
+					"      vars.set(\"imported-packages\", requiredPackages);",
 					"      eval(response.text());",
 					"    } else {",
 					"      console.log(`error: ${JSON.stringify(error)}`);",
@@ -227,7 +227,7 @@
 			"type": "string"
 		},
 		{
-			"key": "imported-packages",
+			"key": "required-packages",
 			"value": "human-names+js-base64@3.7.5+random-js",
 			"type": "string"
 		},
@@ -240,7 +240,7 @@
 			"value": ""
 		},
 		{
-			"key": "installed-packages",
+			"key": "imported-packages",
 			"value": ""
 		}
 	]
