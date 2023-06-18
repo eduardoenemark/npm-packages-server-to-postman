@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ce0bb589-54aa-4d1d-8e09-7264a29fafc3",
+		"_postman_id": "fe4415eb-acf0-4c4a-8e69-cc0d0c0d5640",
 		"name": "Example",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27886780"
@@ -230,18 +230,6 @@
 			"key": "required-packages",
 			"value": "human-names+js-base64@3.7.5+random-js",
 			"type": "string"
-		},
-		{
-			"key": "npm2postman-url",
-			"value": ""
-		},
-		{
-			"key": "packages-code",
-			"value": ""
-		},
-		{
-			"key": "imported-packages",
-			"value": ""
 		}
 	]
 }
