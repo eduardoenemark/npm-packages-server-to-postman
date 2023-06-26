@@ -1,5 +1,5 @@
 
-The npm2postman (**npm packages server to Postman**) acts as a middleware component to get packages from npmjs.com into Postman. This way I beleavy there is gain the productivy by reuse code to  test for new functionality, per example. Once acquired, the npm package will be part of the collection for portability of executions between users.
+The npm2postman (**npm packages server to Postman**) acts as a middleware component to get packages from npmjs.com into Postman. This way I believe there is gain the productivy by reuse code to  test for new functionality, per example. Once acquired, the npm package will be part of the collection for portability of executions between users.
 
 
 ## Getting started
